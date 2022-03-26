@@ -1,0 +1,22 @@
+{
+    "name": "tomdkd/symfony-bundle-generation-bundle",
+    "description": "An easy way to generate your base for your new bundle",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "tomdkd\\SymfonyBundleGenerationBundle\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Thomas Dominik",
+            "email": "tdominik@norauto.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=7.4",
+        "symfony/framework-bundle": "^5.2"
+    }
+}
