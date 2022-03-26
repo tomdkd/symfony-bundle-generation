@@ -7,12 +7,12 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class SymfonyBundleGenerationController extends AbstractController
 {
-    private $projectDir;
-    private $filesystem;
-    private $bundleName;
-    private $bundleFolderName;
-    private $fullPathToBundleFolder;
-    private $namespace;
+    private string $projectDir;
+    private Filesystem $filesystem;
+    private string $bundleName;
+    private string $bundleFolderName;
+    private string $fullPathToBundleFolder;
+    private string $namespace;
 
     public function __construct(String $projectDir)
     {

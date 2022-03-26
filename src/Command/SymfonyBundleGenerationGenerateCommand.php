@@ -5,13 +5,12 @@ namespace tomdkd\SymfonyBundleGenerationBundle\Command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\Question;
 use tomdkd\SymfonyBundleGenerationBundle\Controller\SymfonyBundleGenerationController;
 
 class SymfonyBundleGenerationGenerateCommand extends Command
 {
-    private $controller;
+    private SymfonyBundleGenerationController $controller;
 
     public function __construct(string $name, SymfonyBundleGenerationController $controller)
     {
@@ -36,25 +35,12 @@ class SymfonyBundleGenerationGenerateCommand extends Command
         $bundleNameQuestion = new Question("What is your bundle name? Ex: Foo \n");
         $pseudoNameQuestion = new Question("Which pseudo do you want to use? \n");
 
-        $bundleNameQuestion->setValidator(function ($value) {
-            if (trim($value) == '') {
-                throw new \Exception('Bundle name cannot be empty');
-            }
+        $bundleNameQuestion->setValidator(function ($value) { $this->validate($value, 'Bundle name'); });
+        $pseudoNameQuestion->setValidator(function ($value) { $this->validate($value, 'Pseudo'); });
 
-            return $value;
-        });
-
-        $pseudoNameQuestion->setValidator(function ($value) {
-            if (trim($value) == '') {
-                throw new \Exception('Pseudo name cannot be empty');
-            }
-
-            return $value;
-        });
-
-        $bundleName                = sprintf('%sBundle', ucfirst($helper->ask($input, $output, $bundleNameQuestion)));
-        $pseudoName                = $helper->ask($input, $output, $pseudoNameQuestion);
-        $namespace                 = sprintf('%s\%s', $pseudoName, $bundleName);
+        $bundleName = sprintf('%sBundle', ucfirst($helper->ask($input, $output, $bundleNameQuestion)));
+        $pseudoName = $helper->ask($input, $output, $pseudoNameQuestion);
+        $namespace  = sprintf('%s\%s', $pseudoName, $bundleName);
 
         if (!$this->controller->generateLocalBundleFolder()) {
             $output->writeln('<error>Error during local_bundles folder creation.</error>');
@@ -91,5 +77,22 @@ class SymfonyBundleGenerationGenerateCommand extends Command
         ]);
 
         return Command::FAILURE;
+    }
+
+    /**
+     * Check if value gave by helper is empty or not.
+     *
+     * @param $value
+     * @param $element
+     * @return bool
+     * @throws \Exception
+     */
+    private function validate($value, $element): bool
+    {
+        if (trim($value) == '') {
+            throw new \Exception(sprintf('%s can\'t be empty', $element));
+        }
+
+        return $value;
     }
 }
