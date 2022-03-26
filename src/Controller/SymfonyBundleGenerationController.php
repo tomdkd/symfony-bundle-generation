@@ -61,6 +61,7 @@ class SymfonyBundleGenerationController extends AbstractController
         $this->bundleFolderName = strtolower(preg_replace('/(?<!^)[A-Z]/', '-$0', $this->bundleName));
         $this->fullPathToBundleFolder = sprintf('%s/local_bundles/%s', $this->projectDir, $this->bundleFolderName);
         $this->filesystem->mkdir($this->fullPathToBundleFolder);
+        $this->filesystem->mkdir(sprintf('%s/src', $this->fullPathToBundleFolder));
 
         return $this->filesystem->exists($this->fullPathToBundleFolder);
     }
@@ -75,7 +76,7 @@ class SymfonyBundleGenerationController extends AbstractController
     {
         $this->namespace = $namespace;
         $baseBundleFile = sprintf('%s.php', $this->bundleName);
-        $baseBundleFilePath = sprintf('%s/%s', $this->fullPathToBundleFolder, $baseBundleFile);
+        $baseBundleFilePath = sprintf('%s/src/%s', $this->fullPathToBundleFolder, $baseBundleFile);
 
         $this->filesystem->touch($baseBundleFilePath);
 
