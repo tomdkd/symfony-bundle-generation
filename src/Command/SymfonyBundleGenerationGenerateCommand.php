@@ -116,6 +116,8 @@ class SymfonyBundleGenerationGenerateCommand extends Command
      */
     private function done(OutputInterface $output, $namespace, $bundleFolderName): void
     {
+        $namespaceFormatted = sprintf('%s\\\\', str_replace('\\', '\\\\', $namespace));
+
         $output->writeln([
             '<info>[Generate composer.json for your bundle]</info>',
             'Use <info>composer init</info> inside your bundle folder and follow steps',
@@ -123,7 +125,7 @@ class SymfonyBundleGenerationGenerateCommand extends Command
             '<info>[Overload your bundle]</info>',
             'Inside your root dir, update your composer.json',
             'In <info>autoload/psr-4</info> add this line :',
-            sprintf('   <info>"%s": "local_bundles/%s/src"</info>', $namespace, $bundleFolderName),
+            sprintf('   <info>"%s": "local_bundles/%s/src"</info>', $namespaceFormatted, $bundleFolderName),
             "\n",
             '<info>Enjoy your new bundle and do something amazing!</info>'
         ]);
