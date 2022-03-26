@@ -1,0 +1,5 @@
+services:
+  tomdkd.symfonybundlegenerationbundle.command.symfonybundlegenerationgeneratecommand:
+    class: tomdkd\SymfonyBundleGenerationBundle\Command\SymfonyBundleGenerationGenerateCommand
+    tags:
+      - { name: 'console.command' }
