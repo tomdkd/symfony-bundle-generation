@@ -52,11 +52,27 @@ class SymfonyBundleGenerationGenerateCommand extends Command
             return $value;
         });
 
-        $bundleName         = sprintf('%sBundle', ucfirst($helper->ask($input, $output, $bundleNameQuestion)));
-        $pseudoName         = $helper->ask($input, $output, $pseudoNameQuestion);
-        $namespace          = sprintf('%s\%s', $pseudoName, $bundleName);
+        $bundleName                = sprintf('%sBundle', ucfirst($helper->ask($input, $output, $bundleNameQuestion)));
+        $pseudoName                = $helper->ask($input, $output, $pseudoNameQuestion);
+        $namespace                 = sprintf('%s\%s', $pseudoName, $bundleName);
 
-        $this->controller->generateLocalBundleFolder();
+        if (!$this->controller->generateLocalBundleFolder()) {
+            $output->writeln('<error>Error during local_bundles folder creation.</error>');
+        }
+
+        $output->writeln('<info>local_bundles folder successfully created.</info>');
+
+        if (!$this->controller->generateBundleFolder($bundleName)) {
+            $output->writeln('<error>Error during bundle project folder creation.</error>');
+        }
+
+        $output->writeln('<info>Main bundle project folder successfully created.</info>');
+
+        if (!$this->controller->generateBaseBundleFile($namespace)) {
+            $output->writeln('<error>Error during base file creation.</error>');
+        }
+
+        $output->writeln('<info>Base file successfully created.</info>');
 
         return Command::FAILURE;
     }
