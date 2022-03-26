@@ -12,11 +12,17 @@ class SymfonyBundleGenerationController extends AbstractController
     private $bundleName;
     private $bundleFolderName;
     private $fullPathToBundleFolder;
+    private $namespace;
 
     public function __construct(String $projectDir)
     {
         $this->projectDir = $projectDir;
         $this->filesystem = new Filesystem();
+    }
+
+    public function getBundleFolderName(): string
+    {
+        return $this->bundleFolderName;
     }
 
     public function generateLocalBundleFolder(): bool
@@ -43,6 +49,7 @@ class SymfonyBundleGenerationController extends AbstractController
 
     public function generateBaseBundleFile(String $namespace): bool
     {
+        $this->namespace = $namespace;
         $baseBundleFile = sprintf('%s.php', $this->bundleName);
         $baseBundleFilePath = sprintf('%s/%s', $this->fullPathToBundleFolder, $baseBundleFile);
 
@@ -55,11 +62,39 @@ namespace %s;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
             
 class %s extends Bundle
-{}", $namespace, $this->bundleName);
+{}", $this->namespace, $this->bundleName);
 
         $this->filesystem->appendToFile($baseBundleFilePath, $baseFileContent);
 
         return $this->filesystem->exists($baseBundleFilePath);
+    }
+
+    public function activateBundle(): bool
+    {
+        $bundleFilePath = sprintf('%s/config/bundles.php', $this->projectDir);
+        $bundlesFile = file($bundleFilePath);
+        $lastAlias = (count($bundlesFile) - 1);
+        $beforeLastContent = $bundlesFile[(count($bundlesFile) - 2)];
+
+        if (!strpos($beforeLastContent, ',')) {
+            $bundlesFile[(count($bundlesFile) - 2)] = sprintf("     %s,\n", trim($beforeLastContent));
+        }
+
+        $bundlesFile[$lastAlias] = sprintf("    %s\%s::class => ['all' => true]\n", $this->namespace, $this->bundleName);
+        $bundlesFile[] = "];\n";
+
+        file_put_contents($bundleFilePath, '');
+
+        foreach ($bundlesFile as $line) {
+            file_put_contents($bundleFilePath, $line, FILE_APPEND);
+        }
+
+        return true;
+    }
+
+    public function overloadBundle(): bool
+    {
+        return true;
     }
 
 }

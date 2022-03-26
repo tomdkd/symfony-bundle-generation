@@ -58,21 +58,37 @@ class SymfonyBundleGenerationGenerateCommand extends Command
 
         if (!$this->controller->generateLocalBundleFolder()) {
             $output->writeln('<error>Error during local_bundles folder creation.</error>');
+            return Command::FAILURE;
         }
 
         $output->writeln('<info>local_bundles folder successfully created.</info>');
 
         if (!$this->controller->generateBundleFolder($bundleName)) {
             $output->writeln('<error>Error during bundle project folder creation.</error>');
+            return Command::FAILURE;
         }
 
         $output->writeln('<info>Main bundle project folder successfully created.</info>');
 
         if (!$this->controller->generateBaseBundleFile($namespace)) {
             $output->writeln('<error>Error during base file creation.</error>');
+            return Command::FAILURE;
         }
 
         $output->writeln('<info>Base file successfully created.</info>');
+
+        $this->controller->activateBundle();
+        $output->writeln("<info>bundles.php updated.</info>\n\n");
+
+        $output->writeln([
+            '<info>[Change your composer.json]</info>',
+            'The last step is to update your composer.json file.',
+            'In autoload, PSR-4, add your bundle',
+            sprintf('<info>  "%s": "local_bundles/%s/src"</info>', $namespace, $this->controller->getBundleFolderName()),
+            'And run <info>composer update</info>',
+            'Enjoy your new bundle and do something amazing !',
+            '<info>Done.</info>'
+        ]);
 
         return Command::FAILURE;
     }
