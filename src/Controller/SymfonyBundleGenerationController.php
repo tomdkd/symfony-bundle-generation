@@ -130,7 +130,7 @@ class %s extends Bundle
      */
     public function validateBundleName(String $bundleName): bool
     {
-        return ctype_alpha($bundleName);
+        return preg_match('/[A-Za-z]/', $bundleName);
     }
 
 }

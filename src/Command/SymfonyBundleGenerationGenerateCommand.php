@@ -26,21 +26,25 @@ class SymfonyBundleGenerationGenerateCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln([
-            '<info>[Bundle generation]</info>',
-            '<info>You\'ll be help during the generation process.</info>',
-        ]);
+
+        $this->introduction($output);
 
         $helper             = $this->getHelper('question');
         $bundleNameQuestion = new Question("What is your bundle name? Ex: Foo \n");
         $pseudoNameQuestion = new Question("Which pseudo do you want to use? \n");
+        $bundleName         = sprintf('%sBundle', ucfirst($helper->ask($input, $output, $bundleNameQuestion)));
 
-        $bundleNameQuestion->setValidator(function ($value) { $this->validate($value, 'Bundle name'); });
-        $pseudoNameQuestion->setValidator(function ($value) { $this->validate($value, 'Pseudo'); });
+        $this->validate($bundleName, 'Bundle name');
 
-        $bundleName = sprintf('%sBundle', ucfirst($helper->ask($input, $output, $bundleNameQuestion)));
+        if (!$this->controller->validateBundleName(trim($bundleName))) {
+            $output->writeln('<error>The bundle name is invalid. Bundle name should contains only alphabetics caracters.</error>');
+            return Command::FAILURE;
+        }
+
         $pseudoName = $helper->ask($input, $output, $pseudoNameQuestion);
         $namespace  = sprintf('%s\%s', $pseudoName, $bundleName);
+
+        $this->validate($pseudoName, 'Pseudo');
 
         if (!$this->controller->generateLocalBundleFolder()) {
             $output->writeln('<error>Error during local_bundles folder creation.</error>');
@@ -66,17 +70,9 @@ class SymfonyBundleGenerationGenerateCommand extends Command
         $this->controller->activateBundle();
         $output->writeln("<info>bundles.php updated.</info>\n\n");
 
-        $output->writeln([
-            '<info>[Change your composer.json]</info>',
-            'The last step is to update your composer.json file.',
-            'In autoload, PSR-4, add your bundle',
-            sprintf('<info>  "%s": "local_bundles/%s/src"</info>', $namespace, $this->controller->getBundleFolderName()),
-            'And run <info>composer update</info>',
-            'Enjoy your new bundle and do something amazing !',
-            '<info>Done.</info>'
-        ]);
+        $this->done($output, $namespace);
 
-        return Command::FAILURE;
+        return Command::SUCCESS;
     }
 
     /**
@@ -93,6 +89,40 @@ class SymfonyBundleGenerationGenerateCommand extends Command
             throw new \Exception(sprintf('%s can\'t be empty', $element));
         }
 
-        return $value;
+        return true;
+    }
+
+    /**
+     * Display introduction message
+     *
+     * @param OutputInterface $output
+     * @return void
+     */
+    private function introduction(OutputInterface $output): void
+    {
+        $output->writeln([
+            '<info>[Bundle generation]</info>',
+            '<info>You\'ll be help during the generation process.</info>',
+        ]);
+    }
+
+    /**
+     * Display last message before end of process.
+     *
+     * @param OutputInterface $output
+     * @param $namespace
+     * @return void
+     */
+    private function done(OutputInterface $output, $namespace): void
+    {
+        $output->writeln([
+            '<info>[Change your composer.json]</info>',
+            'The last step is to update your composer.json file.',
+            'In autoload, PSR-4, add your bundle',
+            sprintf('<info>  "%s": "local_bundles/%s/src"</info>', $namespace, $this->controller->getBundleFolderName()),
+            'And run <info>composer update</info>',
+            'Enjoy your new bundle and do something amazing !',
+            '<info>Done.</info>'
+        ]);
     }
 }
