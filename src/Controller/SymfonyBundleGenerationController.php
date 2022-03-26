@@ -20,11 +20,22 @@ class SymfonyBundleGenerationController extends AbstractController
         $this->filesystem = new Filesystem();
     }
 
+    /**
+     * Get bundle folder name.
+     *
+     * @return string
+     */
     public function getBundleFolderName(): string
     {
         return $this->bundleFolderName;
     }
 
+    /**
+     * Generate a folder in project dir who store all bundles that haven't official
+     * version yet or bundles you want to overload.
+     *
+     * @return bool
+     */
     public function generateLocalBundleFolder(): bool
     {
         $localBundlesDir = sprintf('%s/local_bundles', $this->projectDir);
@@ -37,6 +48,13 @@ class SymfonyBundleGenerationController extends AbstractController
         return true;
     }
 
+    /**
+     * Generate the bundle folder.
+     * It convert bundle name in Pascal Case by changing before capital letters into -.
+     *
+     * @param String $bundleName
+     * @return bool
+     */
     public function generateBundleFolder(String $bundleName): bool
     {
         $this->bundleName = $bundleName;
@@ -47,6 +65,12 @@ class SymfonyBundleGenerationController extends AbstractController
         return $this->filesystem->exists($this->fullPathToBundleFolder);
     }
 
+    /**
+     * Generate the file used by symfony to register the bundle.
+     *
+     * @param String $namespace
+     * @return bool
+     */
     public function generateBaseBundleFile(String $namespace): bool
     {
         $this->namespace = $namespace;
@@ -69,6 +93,12 @@ class %s extends Bundle
         return $this->filesystem->exists($baseBundleFilePath);
     }
 
+    /**
+     * Add a line in the config/bundles.php to add your new bundle
+     * by its namespace.
+     *
+     * @return bool
+     */
     public function activateBundle(): bool
     {
         $bundleFilePath = sprintf('%s/config/bundles.php', $this->projectDir);
@@ -92,9 +122,15 @@ class %s extends Bundle
         return true;
     }
 
-    public function overloadBundle(): bool
+    /**
+     * Check if bundle name contains only alphabetic caracters.
+     *
+     * @param String $bundleName
+     * @return bool
+     */
+    public function validateBundleName(String $bundleName): bool
     {
-        return true;
+        return ctype_alpha($bundleName);
     }
 
 }
