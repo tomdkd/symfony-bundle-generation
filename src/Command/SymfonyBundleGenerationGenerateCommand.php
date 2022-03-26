@@ -32,7 +32,8 @@ class SymfonyBundleGenerationGenerateCommand extends Command
         $helper             = $this->getHelper('question');
         $bundleNameQuestion = new Question("What is your bundle name? Ex: Foo \n");
         $pseudoNameQuestion = new Question("Which pseudo do you want to use? \n");
-        $bundleName         = sprintf('%sBundle', ucfirst($helper->ask($input, $output, $bundleNameQuestion)));
+        $bundleName         = $this->controller->formatBundleName(sprintf('%sBundle', ucfirst($helper->ask($input, $output, $bundleNameQuestion))));
+        $bundleFolderName   = strtolower(preg_replace('/(?<!^)[A-Z]/', '-$0', $bundleName));
 
         $this->validate($bundleName, 'Bundle name');
 
@@ -70,7 +71,7 @@ class SymfonyBundleGenerationGenerateCommand extends Command
         $this->controller->activateBundle();
         $output->writeln("<info>bundles.php updated.</info>\n\n");
 
-        $this->done($output, $namespace);
+        $this->done($output, $namespace, $bundleFolderName);
 
         return Command::SUCCESS;
     }
@@ -113,16 +114,18 @@ class SymfonyBundleGenerationGenerateCommand extends Command
      * @param $namespace
      * @return void
      */
-    private function done(OutputInterface $output, $namespace): void
+    private function done(OutputInterface $output, $namespace, $bundleFolderName): void
     {
         $output->writeln([
-            '<info>[Change your composer.json]</info>',
-            'The last step is to update your composer.json file.',
-            'In autoload, PSR-4, add your bundle',
-            sprintf('<info>  "%s": "local_bundles/%s/src"</info>', $namespace, $this->controller->getBundleFolderName()),
-            'And run <info>composer update</info>',
-            'Enjoy your new bundle and do something amazing !',
-            '<info>Done.</info>'
+            '<info>[Generate composer.json for your bundle]</info>',
+            'Use <info>composer init</info> inside your bundle folder and follow steps',
+            "\n",
+            '<info>[Overload your bundle]</info>',
+            'Inside your root dir, update your composer.json',
+            'In <info>autoload/psr-4</info> add this line :',
+            sprintf('   <info>"%s": "local_bundles/%s/src"</info>', $namespace, $bundleFolderName),
+            "\n",
+            '<info>Enjoy your new bundle and do something amazing!</info>'
         ]);
     }
 }

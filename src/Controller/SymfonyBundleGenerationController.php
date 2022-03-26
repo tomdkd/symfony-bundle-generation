@@ -133,4 +133,21 @@ class %s extends Bundle
         return preg_match('/[A-Za-z]/', $bundleName);
     }
 
+    /**
+     * Convert bundle name to PascalCase
+     *
+     * @param String $bundleName
+     * @return string
+     */
+    public function formatBundleName(String $bundleName): string
+    {
+        $stringExploded = explode(' ', $bundleName);
+
+        foreach ($stringExploded as $id => $word) {
+            $stringExploded[$id] = ucfirst($word);
+        }
+
+        return implode('', $stringExploded);
+    }
+
 }
