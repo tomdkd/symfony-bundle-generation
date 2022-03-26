@@ -16,6 +16,7 @@ class SymfonyBundleGenerationExtension extends Extension
         $fileLocator   = new FileLocator($serviceFolder);
         $loader        = new YamlFileLoader($container, $fileLocator);
 
+        $loader->load('controller.yml');
         $loader->load('command.yml');
     }
 }

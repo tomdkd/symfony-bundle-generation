@@ -1,5 +1,8 @@
 services:
   tomdkd.symfonybundlegenerationbundle.command.symfonybundlegenerationgeneratecommand:
     class: tomdkd\SymfonyBundleGenerationBundle\Command\SymfonyBundleGenerationGenerateCommand
+    arguments:
+      - 'bundle:generate'
+      - '@tomdkd.symfonybundlegeneration.controller.symfonybundlegenerationcontroller'
     tags:
       - { name: 'console.command' }
