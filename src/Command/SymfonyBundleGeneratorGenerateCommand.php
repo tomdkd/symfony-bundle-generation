@@ -6,13 +6,13 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
-use tomdkd\SymfonyBundleGenerationBundle\Controller\SymfonyBundleGenerationController;
+use tomdkd\SymfonyBundleGenerationBundle\Controller\SymfonyBundleGeneratorController;
 
-class SymfonyBundleGenerationGenerateCommand extends Command
+class SymfonyBundleGeneratorGenerateCommand extends Command
 {
-    private SymfonyBundleGenerationController $controller;
+    private SymfonyBundleGeneratorController $controller;
 
-    public function __construct(string $name, SymfonyBundleGenerationController $controller)
+    public function __construct(string $name, SymfonyBundleGeneratorController $controller)
     {
         $this->controller = $controller;
         parent::__construct($name);

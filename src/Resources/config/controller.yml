@@ -1,8 +1,8 @@
 parameters:
-  tomdkd.symfonybundlegeneration.controller.symfonybundlegenerationcontroller.class: tomdkd\SymfonyBundleGenerationBundle\Controller\SymfonyBundleGenerationController
+  tomdkd.symfonybundlegenerator.controller.symfonybundlegeneratorcontroller.class: tomdkd\SymfonyBundleGeneratorBundle\Controller\SymfonyBundleGeneratorController
 
 services:
-  tomdkd.symfonybundlegeneration.controller.symfonybundlegenerationcontroller:
-    class: '%tomdkd.symfonybundlegeneration.controller.symfonybundlegenerationcontroller.class%'
+  tomdkd.symfonybundlegenerator.controller.symfonybundlegeneratorcontroller:
+    class: '%tomdkd.symfonybundlegenerator.controller.symfonybundlegeneratorcontroller.class%'
     arguments:
       - '%kernel.project_dir%'

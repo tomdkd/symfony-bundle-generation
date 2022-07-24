@@ -5,7 +5,7 @@ namespace tomdkd\SymfonyBundleGenerationBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
 
-class SymfonyBundleGenerationController extends AbstractController
+class SymfonyBundleGeneratorController extends AbstractController
 {
     private string $projectDir;
     private Filesystem $filesystem;
