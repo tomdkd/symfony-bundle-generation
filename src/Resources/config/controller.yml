@@ -1,5 +1,5 @@
 parameters:
-  tomdkd.symfonybundlegenerator.controller.symfonybundlegeneratorcontroller.class: tomdkd\SymfonyBundleGeneratorBundle\Controller\SymfonyBundleGeneratorController
+  tomdkd.symfonybundlegenerator.controller.symfonybundlegeneratorcontroller.class: Tomdkd\SymfonyBundleGeneratorBundle\Controller\SymfonyBundleGeneratorController
 
 services:
   tomdkd.symfonybundlegenerator.controller.symfonybundlegeneratorcontroller:

@@ -1,6 +1,6 @@
 <?php
 
-namespace tomdkd\SymfonyBundleGeneratorBundle;
+namespace Tomdkd\SymfonyBundleGeneratorBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

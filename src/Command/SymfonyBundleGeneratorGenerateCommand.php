@@ -1,6 +1,6 @@
 <?php
 
-namespace tomdkd\SymfonyBundleGenerationBundle\Command;
+namespace Tomdkd\SymfonyBundleGenerationBundle\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;

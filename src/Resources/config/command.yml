@@ -1,6 +1,6 @@
 services:
   tomdkd.symfonybundlegeneratorbundle.command.symfonybundlegeneratorgeneratecommand:
-    class: tomdkd\SymfonyBundleGeneratorBundle\Command\SymfonyBundleGeneratorGenerateCommand
+    class: Tomdkd\SymfonyBundleGeneratorBundle\Command\SymfonyBundleGeneratorGenerateCommand
     arguments:
       - 'bundle:generate'
       - '@tomdkd.symfonybundlegenerator.controller.symfonybundlegeneratorcontroller'
