@@ -1,6 +1,6 @@
 <?php
 
-namespace Tomdkd\SymfonyBundleGenerationBundle\DependencyInjection;
+namespace Tomdkd\SymfonyBundleGeneratorBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

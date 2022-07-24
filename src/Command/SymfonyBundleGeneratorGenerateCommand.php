@@ -1,12 +1,12 @@
 <?php
 
-namespace Tomdkd\SymfonyBundleGenerationBundle\Command;
+namespace Tomdkd\SymfonyBundleGeneratorBundle\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
-use tomdkd\SymfonyBundleGenerationBundle\Controller\SymfonyBundleGeneratorController;
+use tomdkd\SymfonyBundleGeneratorBundle\Controller\SymfonyBundleGeneratorController;
 
 class SymfonyBundleGeneratorGenerateCommand extends Command
 {

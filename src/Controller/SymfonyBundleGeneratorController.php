@@ -1,6 +1,6 @@
 <?php
 
-namespace Tomdkd\SymfonyBundleGenerationBundle\Controller;
+namespace Tomdkd\SymfonyBundleGeneratorBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
