@@ -1,5 +1,5 @@
 {
-    "name": "tomdkd/symfony-bundle-generation-bundle",
+    "name": "tomdkd/symfony-bundle-generator",
     "description": "An easy way to generate your base for your new bundle",
     "type": "symfony-bundle",
     "license": "MIT",
@@ -16,8 +16,8 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "php": ">=7.4",
-        "symfony/framework-bundle": "^5.2",
+        "php": "^7.4 | ^8.0",
+        "symfony/symfony": "^5.2 | ^6.0",
         "symfony/filesystem": "^5.4"
     }
 }
